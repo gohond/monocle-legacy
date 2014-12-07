@@ -1,18 +1,19 @@
 Monocle integration/staging tree
 ================================
 
-https://mon.vertcoin.org/
-
 Copyright (c) 2009-2013 Bitcoin Developers
 Copyright (c) 2014 Monocle Developers
 
 What is Monocle?
 ----------------
 
-Monocle is a merge mineable N-factor Scrypt coin, released by the Vertcoin developers
+Monocle is a experimental digital currency, it features:
 
  - 2 minute block targets
- - subsidy decreases by ~3% every 10080 blocks
+ - Merge mineable with other coins using Lyra2RE
+ - Proof of Work using ScryptN (prior to block 161579)
+ - Proof of Work using Lyra2RE (from block 161579)
+ - Subsidy decreases by ~3% every 10080 blocks
  - ~8.4 million total coins
  - 25 coins per block
  - 12 block retarget using BRNDF with a 180 block lookback
@@ -29,8 +30,9 @@ information or see http://opensource.org/licenses/MIT.
 Development process
 -------------------
 
-The master branch is tested but is not guaranteed to be stable, please build
-against release tags for production environments.
+The `master` branch is regularly built and tested, but is not guaranteed to be
+completely stable. [Tags](https://github.com/erkmos/monocle/tags) are created
+regularly to indicate new official, stable release versions of Monocle.
 
 Developers work in their own trees, then submit pull requests when they think
 their feature or bug fix is ready.
@@ -38,18 +40,10 @@ their feature or bug fix is ready.
 If it is a simple/trivial/non-controversial change, then one of the Monocle
 development team members simply pulls it.
 
-If it is a *more complicated or potentially controversial* change, then the patch
-submitter will be asked to start a discussion (if they haven't already) on the
-[Vertcoin forum](http://vertcoinforum.com).
-
 The patch will be accepted if there is broad consensus that it is a good thing.
 Developers should expect to rework and resubmit patches if the code doesn't
 match the project's coding conventions (see `doc/coding.txt`) or are
 controversial.
-
-The `master` branch is regularly built and tested, but is not guaranteed to be
-completely stable. [Tags](https://github.com/erkmos/monocle/tags) are created
-regularly to indicate new official, stable release versions of Monocle.
 
 Testing
 -------
