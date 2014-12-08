@@ -4975,7 +4975,7 @@ void static MonocleMiner(CWallet *pwallet)
             uint256 thash;
             loop
             {
-                lyra2re_hash(BEGIN(pblock->nVersion), BEGIN(thash));
+                thash = pblock->GetPoWHash();
 
                 if (thash <= hashTarget)
                 {
