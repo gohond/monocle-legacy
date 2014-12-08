@@ -120,8 +120,8 @@ If you need to build Boost yourself:
 secp256k1
 ---------
 
-  wget https://github.com/bitcoin/secp256k1/archive/61a203517a4f99306da7ec8b5fb96fc5ee5f94d3.zip
-  cd secp256k1-master
+  wget https://github.com/bitcoin/secp256k1/archive/3545627acb6059832834569829e97fb469933b29.zip
+  cd secp256k1-3545627acb6059832834569829e97fb469933b29
   sh autogen.sh
   ./configure
   make

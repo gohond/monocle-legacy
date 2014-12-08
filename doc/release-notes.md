@@ -1,3 +1,8 @@
+0.8.7.4
+=============
+- Hardfork to a new Proof of Work algorithm at block 161579
+- update secp256k1 to commit #3545627acb6059832834569829e97fb469933b29
+
 0.8.7.3
 =============
 - Update openssl to 1.0.1j
