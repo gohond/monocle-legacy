@@ -45,7 +45,8 @@ contains(RELEASE, 1) {
 }
 # for extra security (see: https://wiki.debian.org/Hardening): this flag is GCC compiler-specific
 QMAKE_CXXFLAGS += -U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=2 
-contains(GITIAN_BUILD, 1) {
+contains(GITIAN_BUILD, 1)
+{
     QMAKE_CXXFLAGS += -std=c++0x
 } else {
     QMAKE_CXXFLAGS += -std=c++11
