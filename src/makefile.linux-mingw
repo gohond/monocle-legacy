@@ -128,7 +128,7 @@ obj/%.o: %.cpp $(HEADERS)
 	$(CXX) -c $(xCXXFLAGS) -o $@ $<
 
 obj/lyra2re/%.o: lyra2re/%.c
-  $(CC) -o $@ $<
+	$(CC) -c $(CFLAGS) -o $@ $<
 
 monocled.exe: $(OBJS:obj/%=obj/%)
 	$(CXX) $(xCXXFLAGS) $(xLDFLAGS) -o $@ $(LIBPATHS) $^ $(LIBS)
