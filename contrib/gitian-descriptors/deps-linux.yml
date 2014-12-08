@@ -106,5 +106,5 @@ script: |
   done
   #
   cd $STAGING
-  find include lib bin host | sort | zip -X@ $OUTDIR/monocle-deps-linux${GBUILD_BITS}-gitian-r4.zip
+  find include lib bin host | sort | zip -X@ $OUTDIR/monocle-deps-linux${GBUILD_BITS}-gitian-r5.zip
 

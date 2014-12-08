@@ -126,4 +126,4 @@ script: |
   cd ..
   #
   cd $INSTALLPREFIX
-  zip -r $OUTDIR/monocle-deps-win32-gitian-r5.zip include lib
+  zip -r $OUTDIR/monocle-deps-win32-gitian-r6.zip include lib
