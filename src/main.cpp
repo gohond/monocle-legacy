@@ -167,8 +167,11 @@ void static ResendWalletTransactions()
 }
 
 
-
-
+// Hardfork to new pow
+int32_t lyra2_height()
+{
+    return fTestNet ? LYRA2RE_TESTNET_HEIGHT : LYRA2RE_POW_HEIGHT;
+}
 
 
 
@@ -2285,7 +2288,7 @@ bool CBlock::CheckBlock(CValidationState &state, int nHeight, bool fCheckPOW, bo
     }
     
     // Enforce Lyra2RE PoW after hardfork
-    if (nHeight != INT_MAX && nHeight >= LYRA2RE_POW_HEIGHT && (nVersion & 0xff) < LYRA2RE_BLOCK_VERSION)
+    if (nHeight != INT_MAX && nHeight >= lyra2_height() && (nVersion & 0xff) < LYRA2RE_BLOCK_VERSION)
         return state.DoS(100, error("CheckBlock() : deprecated block version %i", nVersion & 0xff));
 
     // Check proof of work matches claimed amount
@@ -2377,7 +2380,7 @@ bool CBlock::AcceptBlock(CValidationState &state, CDiskBlockPos *dbp)
             return state.DoS(100, error("AcceptBlock() : forked chain older than last checkpoint (height %d)", nHeight));
         
         // reject version 3 blocks prior to hardfork
-        if (nHeight < LYRA2RE_POW_HEIGHT && (nVersion & 0xff) >= LYRA2RE_BLOCK_VERSION)
+        if (nHeight < lyra2_height() && (nVersion & 0xff) >= LYRA2RE_BLOCK_VERSION)
             return state.DoS(100, error("AcceptBlock() : not accepting version %i blocks yet", nVersion & 0xff));
 
         // Reject block.nVersion=1 blocks when 95% (75% on testnet) of the network has upgraded:
@@ -2403,7 +2406,7 @@ bool CBlock::AcceptBlock(CValidationState &state, CDiskBlockPos *dbp)
             }
         }
         // Enforce LYRA2RE PoW at hardfork height
-        if(nHeight >= LYRA2RE_POW_HEIGHT && (nVersion & 0xff) < LYRA2RE_BLOCK_VERSION)
+        if(nHeight >= lyra2_height() && (nVersion & 0xff) < LYRA2RE_BLOCK_VERSION)
             return state.DoS(100, error("AcceptBlock() : Deprecated block version"));
     }
 
@@ -4729,7 +4732,7 @@ CBlockTemplate* CreateNewBlock(const CScript& scriptPubKeyIn)
         pblocktemplate->vTxSigOps[0] = pblock->vtx[0].GetLegacySigOpCount();
 
         // Hardfork to new PoW
-        if(pindexPrev->nHeight + 1 >= LYRA2RE_POW_HEIGHT && (pblock->nVersion & 0xff) != LYRA2RE_BLOCK_VERSION)
+        if(pindexPrev->nHeight + 1 >= lyra2_height() && (pblock->nVersion & 0xff) != LYRA2RE_BLOCK_VERSION)
             pblock->nVersion |= LYRA2RE_BLOCK_VERSION;
 
         CBlockIndex indexDummy(*pblock);

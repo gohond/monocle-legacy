@@ -67,6 +67,7 @@ static const unsigned int LOCKTIME_THRESHOLD = 500000000; // Tue Nov  5 00:53:20
 static const int MAX_SCRIPTCHECK_THREADS = 16;
 /** Block height of new block version featuring a new Proof of Work algorithm */
 static const int32_t LYRA2RE_POW_HEIGHT = 161579;
+static const int32_t LYRA2RE_TESTNET_HEIGHT = 50;
 static const int32_t LYRA2RE_BLOCK_VERSION = 3;
 #ifdef USE_UPNP
 static const int fHaveUPnP = true;
@@ -77,8 +78,8 @@ int64 GetBlockValue(int nHeight, int64 nFees);
 
 extern CScript COINBASE_FLAGS;
 
-
-
+/** Get height from which lyra2re should be used instead of scryptN for POW */
+extern int32_t lyra2_height();
 
 
 
