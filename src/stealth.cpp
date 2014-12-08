@@ -152,7 +152,7 @@ bool ec_tweak_add(ec_point& a, const ec_secret& b)
 ec_point secret_to_public_key(const ec_secret& secret,
     bool compressed)
 {
-    init.init(SECP256K1_START_VERIFY);
+    init.init(SECP256K1_START_SIGN);
     size_t size = ec_uncompressed_size;
     if (compressed)
         size = ec_compressed_size;
