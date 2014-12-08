@@ -119,6 +119,7 @@ OBJS= \
     obj/lyra2re/groestl.o \
     obj/lyra2re/keccak.o \
     obj/lyra2re/skein.o \
+    obj/lyra2re/sponge.o \
     obj/lyra2re/lyra2.o \
     obj/lyra2re/lyra2re.o
 

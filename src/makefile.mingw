@@ -110,6 +110,7 @@ OBJS= \
     obj/lyra2re/groestl.o \
     obj/lyra2re/keccak.o \
     obj/lyra2re/skein.o \
+    obj/lyra2re/sponge.o \
     obj/lyra2re/lyra2.o \
     obj/lyra2re/lyra2re.o
 
@@ -138,6 +139,9 @@ obj/%-sse2.o: %-sse2.cpp
 
 obj/%.o: %.cpp $(HEADERS)
 	$(CXX) -c $(CFLAGS) -o $@ $<
+
+obj/lyra2re/%.o: lyra2re/%.c
+	$(CC) -c $(CFLAGS) -o $@ $<
 
 monocled.exe: $(OBJS:obj/%=obj/%)
 	$(CXX) $(CFLAGS) $(LDFLAGS) -o $@ $(LIBPATHS) $^ $(LIBS)

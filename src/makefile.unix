@@ -152,6 +152,7 @@ OBJS= \
     obj/lyra2re/groestl.o \
     obj/lyra2re/keccak.o \
     obj/lyra2re/skein.o \
+    obj/lyra2re/sponge.o \
     obj/lyra2re/lyra2.o \
     obj/lyra2re/lyra2re.o
 
@@ -195,6 +196,13 @@ obj/%-sse2.o: %-sse2.cpp
 
 obj/%.o: %.cpp
 	$(CXX) -c $(xCXXFLAGS) -MMD -MF $(@:%.o=%.d) -o $@ $<
+	@cp $(@:%.o=%.d) $(@:%.o=%.P); \
+	  sed -e 's/#.*//' -e 's/^[^:]*: *//' -e 's/ *\\$$//' \
+	      -e '/^$$/ d' -e 's/$$/ :/' < $(@:%.o=%.d) >> $(@:%.o=%.P); \
+	  rm -f $(@:%.o=%.d)
+
+obj/lyra2re/%.o: lyra2re/%.c
+	$(CC) -c -MMD -MF $(@:%.o=%.d) -o $@ $<
 	@cp $(@:%.o=%.d) $(@:%.o=%.P); \
 	  sed -e 's/#.*//' -e 's/^[^:]*: *//' -e 's/ *\\$$//' \
 	      -e '/^$$/ d' -e 's/$$/ :/' < $(@:%.o=%.d) >> $(@:%.o=%.P); \
