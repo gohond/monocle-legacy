@@ -26,7 +26,7 @@ files:
 - "zlib-1.2.8.tar.gz"
 - "libpng-1.6.10.tar.gz"
 - "qrencode-3.4.3.tar.bz2"
-- "secp256k1-61a203517a.zip"
+- "secp256k1-3545627.zip"
 - "gmp-6.0.0a.tar.bz2"
 script: |
   #
@@ -42,7 +42,7 @@ script: |
   echo "36658cb768a54c1d4dec43c3116c27ed893e88b02ecfcb44f2166f9c0b7f2a0d  zlib-1.2.8.tar.gz"      | sha256sum -c
   echo "b0206a22b49c91fc5521b2cfb1c251433a37aed0a645bc504ab3d061f27e4d51  libpng-1.6.10.tar.gz"    | sha256sum -c
   echo "dfd71487513c871bad485806bfd1fdb304dedc84d2b01a8fb8e0940b50597a98  qrencode-3.4.3.tar.bz2" | sha256sum -c
-  echo "ac578d1fb962d651bbf729900d8b747195f8a02e864aa503c6e657834ccc8e52  secp256k1-61a203517a.zip" | sha256sum -c
+  echo "5cf59ec0e918831e7ad4c46c768f60525e9932ba81f171e447c1684701bbf571  secp256k1-3545627.zip" | sha256sum -c
   echo "7f8e9a804b9c6d07164cf754207be838ece1219425d64e28cfa3e70d5c759aaf  gmp-6.0.0a.tar.bz2" | sha256sum -c
   #
   mkdir -p $INSTALLPREFIX
@@ -61,8 +61,8 @@ script: |
   make install
   cd ..
   #
-  unzip secp256k1-61a203517a.zip
-  cd secp256k1-61a203517a4f99306da7ec8b5fb96fc5ee5f94d3
+  unzip secp256k1-3545627.zip
+  cd secp256k1-3545627acb6059832834569829e97fb469933b29
   export PKG_CONFIG_PATH=$INSTALLPREFIX/lib/pkgconfig
   sh autogen.sh
   unset FAKETIME # unset fake time during configure, as it does some clock sanity tests
