@@ -1199,7 +1199,8 @@ static const char *strMainNetDNSSeed[][2] = {
 };
 
 static const char *strTestNetDNSSeed[][2] = {
-    {"testnet-mon.etyd.org", "testnet-mon.etyd.org"},
+    //{"testnet-mon.etyd.org", "testnet-mon.etyd.org"},
+    {"testnet", "10.0.1.35"},
     {NULL, NULL}
 };
 
