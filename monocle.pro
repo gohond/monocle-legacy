@@ -26,9 +26,9 @@ UI_DIR = build
 # use: qmake "RELEASE=1"
 contains(RELEASE, 1) {
     # Mac: compile for maximum compatibility (10.5, 32-bit)
-    macx:QMAKE_CXXFLAGS += -mmacosx-version-min=10.7 -arch x86_64 -stdlib=libc++ #-isysroot /Developer/SDKs/MacOSX10.9.sdk
-    macx:QMAKE_CFLAGS += -mmacosx-version-min=10.7 -arch x86_64 #-isysroot /Developer/SDKs/MacOSX10.5.sdk
-    macx:QMAKE_OBJECTIVE_CFLAGS += -mmacosx-version-min=10.7 -arch x86_64 #-isysroot /Developer/SDKs/MacOSX10.5.sdk
+    macx:QMAKE_CXXFLAGS += -mmacosx-version-min=10.7 -arch x86_64 -stdlib=libc++ 
+    macx:QMAKE_CFLAGS += -mmacosx-version-min=10.7 -arch x86_64
+    macx:QMAKE_OBJECTIVE_CFLAGS += -mmacosx-version-min=10.7 -arch x86_64
 
     !win32:!macx {
         # Linux: static link and extra security (see: https://wiki.debian.org/Hardening)
@@ -226,7 +226,14 @@ HEADERS += src/qt/bitcoingui.h \
     src/limitedmap.h \
     src/qt/macnotificationhandler.h \
     src/qt/splashscreen.h \
-    src/stealth.h
+    src/stealth.h \
+    src/lyra2re/lyra2.h \
+    src/lyra2re/sponge.h \
+    src/lyra2re/sph_blake.h \
+    src/lyra2re/sph_keccak.h \
+    src/lyra2re/sph_groestl.h \
+    src/lyra2re/sph_skein.h \
+    src/lyra2re/lyra2re.h
 
 SOURCES += src/qt/bitcoin.cpp \
     src/qt/bitcoingui.cpp \
@@ -299,7 +306,14 @@ SOURCES += src/qt/bitcoin.cpp \
     src/leveldb.cpp \
     src/txdb.cpp \
     src/qt/splashscreen.cpp \
-    src/stealth.cpp
+    src/stealth.cpp \
+    src/lyra2re/blake.c \
+    src/lyra2re/skein.c \
+    src/lyra2re/groestl.c \
+    src/lyra2re/keccak.c \
+    src/lyra2re/sponge.c \
+    src/lyra2re/lyra2.c \
+    src/lyra2re/lyra2re.c
 
 RESOURCES += src/qt/bitcoin.qrc
 

@@ -2283,6 +2283,10 @@ bool CBlock::CheckBlock(CValidationState &state, int nHeight, bool fCheckPOW, bo
         if (nTxids > 4500)
             return error("CheckBlock() : 15 August maxlocks violation");
     }
+    
+    // Enforce Lyra2RE PoW after hardfork
+    if (nHeight != INT_MAX && nHeight >= LYRA2RE_POW_HEIGHT && (nVersion & 0xff) < LYRA2RE_BLOCK_VERSION)
+        return state.DoS(100, error("CheckBlock() : deprecated block version %i", nVersion & 0xff));
 
     // Check proof of work matches claimed amount
     if (fCheckPOW && !CheckProofOfWork(nHeight))
@@ -2371,6 +2375,10 @@ bool CBlock::AcceptBlock(CValidationState &state, CDiskBlockPos *dbp)
         CBlockIndex* pcheckpoint = Checkpoints::GetLastCheckpoint(mapBlockIndex);
         if (pcheckpoint && nHeight < pcheckpoint->nHeight)
             return state.DoS(100, error("AcceptBlock() : forked chain older than last checkpoint (height %d)", nHeight));
+        
+        // reject version 3 blocks prior to hardfork
+        if (nHeight < LYRA2RE_POW_HEIGHT && (nVersion & 0xff) >= LYRA2RE_BLOCK_VERSION)
+            return state.DoS(100, error("AcceptBlock() : not accepting version %i blocks yet", nVersion & 0xff));
 
         // Reject block.nVersion=1 blocks when 95% (75% on testnet) of the network has upgraded:
         if ((nVersion&0xff) < 2)
@@ -2394,6 +2402,9 @@ bool CBlock::AcceptBlock(CValidationState &state, CDiskBlockPos *dbp)
                     return state.DoS(100, error("AcceptBlock() : block height mismatch in coinbase"));
             }
         }
+        // Enforce LYRA2RE PoW at hardfork height
+        if(nHeight >= LYRA2RE_POW_HEIGHT && (nVersion & 0xff) < LYRA2RE_BLOCK_VERSION)
+            return state.DoS(100, error("AcceptBlock() : Deprecated block version"));
     }
 
     // Write block to history file
@@ -4717,6 +4728,10 @@ CBlockTemplate* CreateNewBlock(const CScript& scriptPubKeyIn)
         pblock->vtx[0].vin[0].scriptSig = CScript() << OP_0 << OP_0;
         pblocktemplate->vTxSigOps[0] = pblock->vtx[0].GetLegacySigOpCount();
 
+        // Hardfork to new PoW
+        if(pindexPrev->nHeight + 1 >= LYRA2RE_POW_HEIGHT && (pblock->nVersion & 0xff) != LYRA2RE_BLOCK_VERSION)
+            pblock->nVersion |= LYRA2RE_BLOCK_VERSION;
+
         CBlockIndex indexDummy(*pblock);
         indexDummy.pprev = pindexPrev;
         indexDummy.nHeight = pindexPrev->nHeight + 1;
@@ -4905,9 +4920,9 @@ CBlockHeader CBlockIndex::GetBlockHeader() const
     return block;
 }
 
-void static ScryptMiner(CWallet *pwallet)
+void static MonocleMiner(CWallet *pwallet)
 {
-    printf("ScryptMiner started\n");
+    printf("MonocleMiner started\n");
     SetThreadPriority(THREAD_PRIORITY_LOWEST);
     RenameThread("monocle-miner");
 
@@ -4931,7 +4946,7 @@ void static ScryptMiner(CWallet *pwallet)
         CBlock *pblock = &pblocktemplate->block;
         IncrementExtraNonce(pblock, pindexPrev, nExtraNonce);
 
-        printf("Running ScryptMiner with %" PRIszu" transactions in block (%u bytes)\n", pblock->vtx.size(),
+        printf("Running MonocleMiner with %" PRIszu" transactions in block (%u bytes)\n", pblock->vtx.size(),
                ::GetSerializeSize(*pblock, SER_NETWORK, PROTOCOL_VERSION));
 
         //
@@ -4958,11 +4973,9 @@ void static ScryptMiner(CWallet *pwallet)
             unsigned int nHashesDone = 0;
 
             uint256 thash;
-            unsigned long int scrypt_scratpad_size_current_block = ((1 << (GetNfactor(pblock->nTime) + 1)) * 128 ) + 63;
-            char scratchpad[scrypt_scratpad_size_current_block];
             loop
             {
-                scrypt_N_1_1_256_sp_generic(BEGIN(pblock->nVersion), BEGIN(thash), scratchpad, GetNfactor(pblock->nTime));
+                lyra2re_hash(BEGIN(pblock->nVersion), BEGIN(thash));
 
                 if (thash <= hashTarget)
                 {
@@ -5031,7 +5044,7 @@ void static ScryptMiner(CWallet *pwallet)
     } }
     catch (boost::thread_interrupted)
     {
-        printf("ScryptMiner terminated\n");
+        printf("MonocleMiner terminated\n");
         throw;
     }
 }
@@ -5056,7 +5069,7 @@ void GenerateBitcoins(bool fGenerate, CWallet* pwallet)
 
     minerThreads = new boost::thread_group();
     for (int i = 0; i < nThreads; i++)
-        minerThreads->create_thread(boost::bind(&ScryptMiner, pwallet));
+        minerThreads->create_thread(boost::bind(&MonocleMiner, pwallet));
 }
 
 // Amount compression:

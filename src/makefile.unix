@@ -41,6 +41,7 @@ LIBS += \
    -l boost_random$(BOOST_LIB_SUFFIX) \
    -l db_cxx$(BDB_LIB_SUFFIX) \
    -l ssl \
+   -l secp256k1 \
    -l crypto
 
 TESTLIBS += \
@@ -146,7 +147,13 @@ OBJS= \
     obj/noui.o \
     obj/leveldb.o \
     obj/txdb.o \
-    obj/stealth.o
+    obj/stealth.o \
+    obj/lyra2re/blake.o \
+    obj/lyra2re/groestl.o \
+    obj/lyra2re/keccak.o \
+    obj/lyra2re/skein.o \
+    obj/lyra2re/lyra2.o \
+    obj/lyra2re/lyra2re.o
 
 
 ifdef USE_SSE2

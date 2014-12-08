@@ -10,6 +10,7 @@
 #include "net.h"
 #include "script.h"
 #include "scrypt.h"
+#include "lyra2re/lyra2re.h"
 #include "stealth.h"
 
 #include <list>
@@ -64,6 +65,9 @@ static const int COINBASE_MATURITY = 100;
 static const unsigned int LOCKTIME_THRESHOLD = 500000000; // Tue Nov  5 00:53:20 1985 UTC
 /** Maximum number of script-checking threads allowed */
 static const int MAX_SCRIPTCHECK_THREADS = 16;
+/** Block height of new block version featuring a new Proof of Work algorithm */
+static const int32_t LYRA2RE_POW_HEIGHT = 161579;
+static const int32_t LYRA2RE_BLOCK_VERSION = 3;
 #ifdef USE_UPNP
 static const int fHaveUPnP = true;
 #else
@@ -1351,7 +1355,10 @@ public:
     uint256 GetPoWHash() const
     {
         uint256 thash;
-        scrypt_N_1_1_256(BEGIN(nVersion), BEGIN(thash), GetNfactor(nTime));
+        if((nVersion & 0xff) >= LYRA2RE_BLOCK_VERSION)
+            lyra2re_hash(BEGIN(nVersion), BEGIN(thash));
+        else
+            scrypt_N_1_1_256(BEGIN(nVersion), BEGIN(thash), GetNfactor(nTime));
         return thash;
     }
 	

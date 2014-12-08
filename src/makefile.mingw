@@ -39,6 +39,9 @@ LIBS= \
  -l boost_program_options$(BOOST_SUFFIX) \
  -l boost_thread$(BOOST_SUFFIX) \
  -l boost_chrono$(BOOST_SUFFIX) \
+ -l boost_random$(BOOST_SUFFIX) \
+ -l secp256k1 \
+ -l gmp \
  -l db_cxx \
  -l ssl \
  -l crypto
@@ -101,7 +104,14 @@ OBJS= \
     obj/bloom.o \
     obj/noui.o \
     obj/leveldb.o \
-    obj/txdb.o
+    obj/txdb.o \
+    obj/stealth.o \
+    obj/lyra2re/blake.o \
+    obj/lyra2re/groestl.o \
+    obj/lyra2re/keccak.o \
+    obj/lyra2re/skein.o \
+    obj/lyra2re/lyra2.o \
+    obj/lyra2re/lyra2re.o
 
 ifdef USE_SSE2
 DEFS += -DUSE_SSE2

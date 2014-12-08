@@ -149,11 +149,11 @@ public:
         if (init_done_)
             secp256k1_stop();
     }
-    void init()
+    void init(int flags)
     {
         if (init_done_)
             return;
-        secp256k1_start();
+        secp256k1_start(flags);
         init_done_ = true;
     }
 
