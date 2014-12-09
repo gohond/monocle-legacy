@@ -66,7 +66,7 @@ static const unsigned int LOCKTIME_THRESHOLD = 500000000; // Tue Nov  5 00:53:20
 /** Maximum number of script-checking threads allowed */
 static const int MAX_SCRIPTCHECK_THREADS = 16;
 /** Block height of new block version featuring a new Proof of Work algorithm */
-static const int32_t LYRA2RE_POW_HEIGHT = 161579;
+static const int32_t LYRA2RE_POW_HEIGHT = INT_MAX;
 static const int32_t LYRA2RE_TESTNET_HEIGHT = 50;
 static const int32_t LYRA2RE_BLOCK_VERSION = 3;
 #ifdef USE_UPNP
