@@ -11,8 +11,8 @@ Monocle is a experimental digital currency, it features:
 
  - 2 minute block targets
  - Merge mineable with other coins using Lyra2RE
- - Proof of Work using ScryptN (prior to block 161579)
- - Proof of Work using Lyra2RE (from block 161579)
+ - Proof of Work using ScryptN (prior to block ??)
+ - Proof of Work using Lyra2RE (from block ??)
  - Subsidy decreases by ~3% every 10080 blocks
  - ~8.4 million total coins
  - 25 coins per block
